@@ -1,0 +1,32 @@
+Handshake Domain is a distributed domain name system (DNS) called Handshake.
+To use Handshake Domain with Apache, follow these steps
+
+1. Enable mod_proxy
+To use Handshake Domain with Apache, you need to enable the module mod_proxy, 
+open the Apache configuration file (usually httpd.conf) and enable mod_proxy as follows
+
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+
+2. VirtualHost Settings
+Next, configure a VirtualHost that uses the Handshake Domain. 
+In the following example, we set up a VirtualHost that uses the Handshake Domain named example.hns.
+
+<VirtualHost *:80>
+    ServerName example.hns
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+</VirtualHost>
+
+
+In the above example, if an HTTP request is sent to the example.hns domain, 
+Apache will forward the request to port 3000 of localhost. directive instructs Apache to maintain the Host field in the HTTP header. 
+This will ensure that the reverse proxy works correctly.
+
+Restart Apache
+Once you have made changes to the configuration, restart Apache for the changes to take effect.
+
+sudo service apache2 restart
+
+This completes the Apache configuration for using Handshake Domain.
